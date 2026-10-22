@@ -1,24 +1,22 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:3000/api/auth";
-
+const API_URL = `${import.meta.env.VITE_API_URL}/api/auth`;
 
 // ==========================================
 // INICIAR SESIÓN
 // ==========================================
 
-export const iniciarSesion = async (
-    correo,
-    password
-) => {
+export const iniciarSesion = async (correo, password) => {
+const respuesta = await axios.post(
+`${API_URL}/login`,
+{
+correo,
+password
+}
+);
 
-    const respuesta = await axios.post(
-        `${API_URL}/login`,
-        {
-            correo,
-            password
-        }
-    );
+```
+return respuesta.data;
+```
 
-    return respuesta.data;
 };

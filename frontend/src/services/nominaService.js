@@ -1,107 +1,59 @@
 import axios from "axios";
 
+const API_URL = `${import.meta.env.VITE_API_URL}/api/nominas`;
 
-const API_URL =
-    "http://localhost:3000/api/nominas";
-
-
-// ==========================================
-// OBTENER NÓMINAS
-// ==========================================
-
+// Obtener nóminas
 export const obtenerNominas = async () => {
+const token = localStorage.getItem("token");
 
-    const token =
-        localStorage.getItem("token");
+```
+const respuesta = await axios.get(API_URL, {
+    headers: {
+        Authorization: "Bearer " + token
+    }
+});
 
-
-    const respuesta =
-        await axios.get(
-
-            API_URL,
-
-            {
-                headers: {
-                    Authorization:
-                        `Bearer ${token}`
-                }
-            }
-
-        );
-
-
-    return respuesta.data;
+return respuesta.data;
+```
 
 };
 
+// Crear nómina
+export const crearNomina = async (nomina) => {
+const token = localStorage.getItem("token");
 
-// ==========================================
-// CREAR NÓMINA
-// ==========================================
+```
+const respuesta = await axios.post(
+    API_URL,
+    nomina,
+    {
+        headers: {
+            Authorization: "Bearer " + token
+        }
+    }
+);
 
-export const crearNomina = async (
-    nomina
-) => {
-
-    const token =
-        localStorage.getItem("token");
-
-
-    const respuesta =
-        await axios.post(
-
-            API_URL,
-
-            nomina,
-
-            {
-                headers: {
-                    Authorization:
-                        `Bearer ${token}`
-                }
-            }
-
-        );
-
-
-    return respuesta.data;
+return respuesta.data;
+```
 
 };
 
+// Cambiar estado de una nómina
+export const cambiarEstadoNomina = async (id, estado) => {
+const token = localStorage.getItem("token");
 
-// ==========================================
-// CAMBIAR ESTADO
-// ==========================================
+```
+const respuesta = await axios.put(
+    API_URL + "/" + id + "/estado",
+    { estado },
+    {
+        headers: {
+            Authorization: "Bearer " + token
+        }
+    }
+);
 
-export const cambiarEstadoNomina =
-    async (
-        id,
-        estado
-    ) => {
+return respuesta.data;
+```
 
-        const token =
-            localStorage.getItem("token");
-
-
-        const respuesta =
-            await axios.put(
-
-                `${API_URL}/${id}/estado`,
-
-                {
-                    estado
-                },
-
-                {
-                    headers: {
-                        Authorization:
-                            `Bearer ${token}`
-                    }
-                }
-
-            );
-
-
-        return respuesta.data;
-
-    };
+};
