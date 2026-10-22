@@ -2,21 +2,11 @@ import axios from "axios";
 
 const API_URL = `${import.meta.env.VITE_API_URL}/api/auth`;
 
-// ==========================================
-// INICIAR SESIÓN
-// ==========================================
-
 export const iniciarSesion = async (correo, password) => {
-const respuesta = await axios.post(
-`${API_URL}/login`,
-{
+const respuesta = await axios.post(`${API_URL}/login`, {
 correo,
-password
-}
-);
+password,
+});
 
-```
 return respuesta.data;
-```
-
 };
