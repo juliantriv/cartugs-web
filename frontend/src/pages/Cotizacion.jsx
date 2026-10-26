@@ -281,7 +281,12 @@ function Cotizacion() {
                             value={formulario.anio_vehiculo}
                             onChange={manejarCambio}
                             placeholder="2024"
+                            min="1900"
+                            max={new Date().getFullYear() + 1}
+                            step="1"
+                            required
                         />
+
 
                     </div>
 

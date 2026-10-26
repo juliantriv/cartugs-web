@@ -1,8 +1,9 @@
+
 const database = require("../config/database");
+
 
 // Obtener todas las cotizaciones
 const obtenerCotizaciones = async () => {
-
     const [cotizaciones] = await database.query(`
         SELECT
             c.id,
@@ -28,9 +29,10 @@ const obtenerCotizaciones = async () => {
 };
 
 
+
+
 // Crear una cotización
 const crearCotizacion = async (cotizacion) => {
-
     const {
         nombre_cliente,
         correo_cliente,
@@ -44,20 +46,37 @@ const crearCotizacion = async (cotizacion) => {
         comentarios
     } = cotizacion;
 
-    // Estado inicial: pendiente
+    // Validar el año del vehículo
+    const anioTexto = String(anio_vehiculo ?? "").trim();
+    const anio = Number(anioTexto);
+    const anioActual = new Date().getFullYear();
+
+    if (
+        anioTexto === "" ||
+        !Number.isInteger(anio) ||
+        anio < 1900 ||
+        anio > anioActual + 1
+    ) {
+        throw new Error(
+            `El año del vehículo es obligatorio y debe estar entre 1900 y ${anioActual + 1}.`
+        );
+    }
+
+    // Buscar el estado inicial: pendiente
     const [estado] = await database.query(`
         SELECT id
         FROM estados_cotizacion
-        WHERE nombre = 'pendiente'
+        WHERE LOWER(nombre) = 'pendiente'
         LIMIT 1
     `);
 
     if (estado.length === 0) {
-        throw new Error("No existe el estado pendiente");
+        throw new Error("No existe el estado pendiente en la base de datos.");
     }
 
     const estado_id = estado[0].id;
 
+    // Guardar la cotización
     const [resultado] = await database.query(`
         INSERT INTO cotizaciones (
             nombre_cliente,
@@ -79,7 +98,7 @@ const crearCotizacion = async (cotizacion) => {
         telefono_cliente,
         marca_vehiculo,
         modelo_vehiculo,
-        anio_vehiculo,
+        anio,
         origen,
         destino,
         fecha_servicio,
@@ -93,7 +112,6 @@ const crearCotizacion = async (cotizacion) => {
 
 // Cambiar estado de una cotización
 const cambiarEstado = async (id, estado_id) => {
-
     const [resultado] = await database.query(`
         UPDATE cotizaciones
         SET estado_id = ?

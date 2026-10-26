@@ -47,6 +47,26 @@ const crearCotizacion = async (req, res) => {
         } = req.body;
 
 
+
+        // Validar el año del vehículo
+            const anioTexto = String(anio_vehiculo ?? "").trim();
+            const anio = Number(anioTexto);
+            const anioActual = new Date().getFullYear();
+
+                if (
+                    anioTexto === "" ||
+                    !Number.isInteger(anio) ||
+                    anio < 1900 ||
+                    anio > anioActual + 1
+                ) {
+                    return res.status(400).json({
+                        mensaje: `El año del vehículo es obligatorio y debe estar entre 1900 y ${anioActual + 1}.`
+                    });
+                }
+
+
+
+
         // Validaciones básicas
 
         if (

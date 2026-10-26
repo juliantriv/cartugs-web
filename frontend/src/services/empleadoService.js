@@ -5,8 +5,6 @@ const API_URL = `${import.meta.env.VITE_API_URL}/api/empleados`;
 // Obtener empleados
 export const obtenerEmpleados = async () => {
 const token = localStorage.getItem("token");
-
-```
 const respuesta = await axios.get(API_URL, {
     headers: {
         Authorization: "Bearer " + token
@@ -14,15 +12,11 @@ const respuesta = await axios.get(API_URL, {
 });
 
 return respuesta.data;
-```
-
 };
 
 // Crear empleado
 export const crearEmpleado = async (empleado) => {
 const token = localStorage.getItem("token");
-
-```
 const respuesta = await axios.post(
     API_URL,
     empleado,
@@ -34,15 +28,11 @@ const respuesta = await axios.post(
 );
 
 return respuesta.data;
-```
-
 };
 
 // Actualizar empleado
 export const actualizarEmpleado = async (id, empleado) => {
 const token = localStorage.getItem("token");
-
-```
 const respuesta = await axios.put(
     API_URL + "/" + id,
     empleado,
@@ -54,15 +44,11 @@ const respuesta = await axios.put(
 );
 
 return respuesta.data;
-```
-
 };
 
 // Eliminar empleado
 export const eliminarEmpleado = async (id) => {
 const token = localStorage.getItem("token");
-
-```
 const respuesta = await axios.delete(
     API_URL + "/" + id,
     {
@@ -73,6 +59,4 @@ const respuesta = await axios.delete(
 );
 
 return respuesta.data;
-```
-
 };
